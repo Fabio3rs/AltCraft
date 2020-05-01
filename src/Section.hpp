@@ -7,7 +7,7 @@
 #include "Vector.hpp"
 
 class Section {
-    std::vector<long long> block;
+    std::vector<int64_t> block;
 	unsigned char light[2048] = {};
 	unsigned char sky[2048] = {};
     unsigned char bitsPerBlock = 0;
@@ -20,7 +20,7 @@ class Section {
 
     std::map<Vector, BlockId> overrideList;
 public:
-    Section(Vector pos, unsigned char bitsPerBlock, std::vector<unsigned short> palette, std::vector<long long> blockData, const std::vector<unsigned char> &lightData, const std::vector<unsigned char> &skyData);
+    Section(Vector pos, unsigned char bitsPerBlock, std::vector<unsigned short> palette, std::vector<int64_t> blockData, const std::vector<unsigned char> &lightData, const std::vector<unsigned char> &skyData);
     
 	Section() = default;
 	

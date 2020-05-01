@@ -47,10 +47,10 @@ Section World::ParseSection(StreamInput *data, Vector position) {
     if (dimension == 0)
         skyLight = data->ReadByteArray(2048);
 
-    long long *blockData = reinterpret_cast<long long*>(dataArray.data());
-    for (int i = 0; i < dataArray.size() / sizeof(long long); i++)
+    int64_t *blockData = reinterpret_cast<int64_t*>(dataArray.data());
+    for (int i = 0; i < dataArray.size() / sizeof(int64_t); i++)
         endswap(blockData[i]);
-    std::vector<long long> blockArray(blockData, blockData + dataArray.size() / sizeof(long long));
+    std::vector<int64_t> blockArray(blockData, blockData + dataArray.size() / sizeof(int64_t));
 
 
     return Section(

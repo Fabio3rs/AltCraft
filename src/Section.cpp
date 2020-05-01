@@ -13,11 +13,11 @@ void Section::CalculateHash() const {
     size_t offset = 0;
 
     std::vector<unsigned char> rawData;    
-    rawData.resize(block.size() * sizeof(long long) + 4096);
+    rawData.resize(block.size() * sizeof(int64_t) + 4096);
     
 	std::memcpy(rawData.data(), light, 2048);
 	std::memcpy(rawData.data() + 2048, sky, 2048);
-	std::memcpy(rawData.data() + 4096, block.data(), block.size() * sizeof(long long));    
+	std::memcpy(rawData.data() + 4096, block.data(), block.size() * sizeof(int64_t));    
 	
     for (auto& it : overrideList) {
         rawData.push_back(*reinterpret_cast<const unsigned short*> (&it.second) & 0xF);
@@ -31,7 +31,7 @@ void Section::CalculateHash() const {
     hash =  std::hash<std::string>{}(str);
 }
 
-Section::Section(Vector pos, unsigned char bitsPerBlock, std::vector<unsigned short> palette, std::vector<long long> blockData, const std::vector<unsigned char> &lightData, const std::vector<unsigned char> &skyData) {
+Section::Section(Vector pos, unsigned char bitsPerBlock, std::vector<unsigned short> palette, std::vector<int64_t> blockData, const std::vector<unsigned char> &lightData, const std::vector<unsigned char> &skyData) {
     if (bitsPerBlock < 4)
         bitsPerBlock = 4;
     if (bitsPerBlock > 8)
