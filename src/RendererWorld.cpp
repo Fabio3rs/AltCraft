@@ -375,7 +375,7 @@ void RendererWorld::Render(RenderState & renderState) {
 		dayTime *= -1;
 	while (dayTime > 24000)
 		dayTime -= 24000;
-	if (dayTime > 0 && dayTime < moonriseMin || dayTime > sunriseMax) //day
+	if ((dayTime > 0 && dayTime < moonriseMin) || dayTime > sunriseMax) //day
 		mixLevel = 1.0;
 	if (dayTime > moonriseMax && dayTime < sunriseMin) //night
 		mixLevel = 0.0;
