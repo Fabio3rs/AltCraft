@@ -2,17 +2,20 @@
 
 #include <optick.h>
 
-std::list<EventListener*> EventSystem::listeners;
-std::recursive_mutex EventSystem::listenersMutex;
+EventSystem &EventSystem::single()
+{
+    static EventSystem s;
+    return s;
+}
 
 EventListener::EventListener() {
-	std::lock_guard<std::recursive_mutex> lock(EventSystem::listenersMutex);
-	EventSystem::listeners.push_back(this);
+	std::lock_guard<std::recursive_mutex> lock(EventSystem::single().listenersMutex);
+	EventSystem::single().listeners.push_back(this);
 }
 
 EventListener::~EventListener() {
-	std::lock_guard<std::recursive_mutex> lock(EventSystem::listenersMutex);
-	EventSystem::listeners.remove(this);
+	std::lock_guard<std::recursive_mutex> lock(EventSystem::single().listenersMutex);
+	EventSystem::single().listeners.remove(this);
 }
 
 void EventListener::HandleEvent() {

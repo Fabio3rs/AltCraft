@@ -92,16 +92,16 @@ public:
 
 class EventSystem {
 	friend class EventListener;
-	static std::list<EventListener*> listeners;
-	static std::recursive_mutex listenersMutex;
+	std::list<EventListener*> listeners;
+	std::recursive_mutex listenersMutex;
 
 public:
 	template <typename T>
 	static void PushEvent(size_t eventId, T data) {
 		Event event(eventId, data);
 
-		std::lock_guard<std::recursive_mutex> lock(EventSystem::listenersMutex);
-		for (auto& listener : listeners) {
+		std::lock_guard<std::recursive_mutex> lock(single().listenersMutex);
+		for (auto& listener : single().listeners) {
 			std::lock_guard<std::recursive_mutex> rawEventLock (listener->rawEventsMutex);
 			listener->rawEvents.push(event);
 		}
@@ -110,8 +110,8 @@ public:
 	template <typename T>
 	static void DirectEventCall(size_t eventId, T data) {
 		Event event(eventId, data);
-		std::lock_guard<std::recursive_mutex> lock(EventSystem::listenersMutex);
-		for (auto & listener : listeners) {
+		std::lock_guard<std::recursive_mutex> lock(single().listenersMutex);
+		for (auto & listener : single().listeners) {
 			std::lock_guard<std::recursive_mutex> handlersLock (listener->handlersMutex);
 			auto it = listener->handlers.find(eventId);
 			if (it == listener->handlers.end())
@@ -120,6 +120,8 @@ public:
 			it->second(event);
 		}
 	}
+
+    static EventSystem &single();
 };
 
 #define PUSH_EVENT(eventName, data) EventSystem::PushEvent(StrHash(eventName),data) //; LOG(INFO)<<"PUSH_EVENT "<<eventName;
