@@ -39,8 +39,8 @@ public:
 
 	template<typename T>
 	Event(size_t eventId, T value) :
-		id(eventId),
-		data(std::make_shared<EventData<T>>(std::move(value))) {}
+        data(std::make_shared<EventData<T>>(std::move(value))),
+		id(eventId) {}
 
 	~Event() = default;
 

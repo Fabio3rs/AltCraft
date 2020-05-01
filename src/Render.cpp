@@ -84,10 +84,10 @@ Render::~Render() {
 
 void Render::InitSdl(unsigned int WinWidth, unsigned int WinHeight, std::string WinTitle) {
     LOG(INFO) << "Creating window: " << WinWidth << "x" << WinHeight << " \"" << WinTitle << "\"";
-
+    
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
         throw std::runtime_error("SDL initalization failed: " + std::string(SDL_GetError()));
-
+    
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -380,7 +380,7 @@ void Render::RenderGui() {
                                          ImGuiWindowFlags_NoSavedSettings;
 
     //ImGui::ShowTestWindow();
-
+    
     ImGui::SetNextWindowPos(ImVec2(10, 10));
     ImGui::Begin("DebugInfo", 0, ImVec2(0, 0), 0.4f, windowFlags);
     ImGui::Text("Debug Info:");
@@ -435,7 +435,7 @@ void Render::RenderGui() {
             GetGameState()->GetPlayerStatus().health, 20.0f);
 
         ImGui::Text(
-            "Selected block: %d %d %d : %.1f",
+            "Selected block: %ld %ld %ld : %.1f",
             selectionStatus.selectedBlock.x,
 			selectionStatus.selectedBlock.y,
 			selectionStatus.selectedBlock.z,

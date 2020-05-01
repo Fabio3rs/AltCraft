@@ -138,4 +138,4 @@ struct Vector3 {
 };
 
 using VectorF = Vector3<double>;
-using Vector = Vector3<signed long long>;
+using Vector = Vector3<int64_t>;
