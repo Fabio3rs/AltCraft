@@ -23,7 +23,7 @@ class Event {
 
 	template<typename T>
 	struct EventData : EventDataBase {
-		EventData(const T &val) : data(val) {}
+		EventData(T val) : data(std::move(val)) {}
 
 		const std::type_info& Type() const override {
 			return typeid(data);
@@ -38,9 +38,9 @@ public:
 	const size_t id;
 
 	template<typename T>
-	Event(size_t eventId, const T &value) :
+	Event(size_t eventId, T value) :
 		id(eventId),
-		data(std::make_shared<EventData<T>>(value)) {}
+		data(std::make_shared<EventData<T>>(std::move(value))) {}
 
 	~Event() = default;
 
